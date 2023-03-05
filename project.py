@@ -134,6 +134,11 @@ def isValidCreditCardNumber(cc_number): #checking if the credit card number is v
 
 def main():
 
+
+    credit_card_number = ""
+    credit_card_password = ""
+     #opening the csv file in read mode
+
     file = open("menu.txt", "w") #opening the file in write mode
 
     menu_text = """
@@ -219,20 +224,50 @@ def main():
     print("----------------------------------")
     print("Total Cost: " + f"{pizza.get_cost():.2f} ₺") #printing the total cost
 
-    print("\nPlease enter your credit card information to complete your order.")
+    found = False
 
-    
-    credit_card_number = input("Please enter your credit card number: ") #getting the credit card number from the user	
-    
-    while(True):
-        if isValidCreditCardNumber(credit_card_number): #checking if the credit card number is valid
-            break
+    with open("Orders_Database.csv", "r") as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+          print(row)
+          if row[1] == id_number:
+              found = True
+              credit_card_number = row[2]
+              credit_card_password = row[6]
+              break
+
+        if found:
+            print("Do you want to use your previous credit card information? (Y/N)")
+            choice = input()
+            if choice == "Y":
+                pass
+            elif choice == "N":
+                credit_card_number = input("Please enter your credit card number: ")
+                while(True):
+                    if isValidCreditCardNumber(credit_card_number):
+                        break
+                    else:
+                        print("Invalid Credit Card Number!")
+                        credit_card_number = input("Please enter your credit card number: ")
+                credit_card_password = input("Please enter your credit card password: ")
+
         else:
-            print("Invalid Credit Card Number!")
             credit_card_number = input("Please enter your credit card number: ")
-
-    credit_card_password = input("Please enter your credit card password: ") #getting the credit card password from the user
-
+            while(True):
+                if isValidCreditCardNumber(credit_card_number):
+                    break
+                else:
+                    print("Invalid Credit Card Number!")
+                    credit_card_number = input("Please enter your credit card number: ")
+            credit_card_password = input("Please enter your credit card password: ")
+                    
+    
+        
+            
+     #getting the choice from the user
+     #getting the credit card number from the user	
+    
+    
     description = pizza.get_description()
     cost = pizza.get_cost()
 
@@ -240,7 +275,7 @@ def main():
     date_time = now.strftime("%d/%m/%Y, %H:%M:%S") #formatting the date and time
 
 
-    with open("Orders_Database.csv", "a") as csvfile: #opening the csv file in append mode
+    with open("Orders_Database.csv", "a+") as csvfile: #opening the csv file in append mode
         writer = csv.writer(csvfile) #creating a csv writer object
         writer.writerow([name, id_number, credit_card_number, description, cost, date_time, credit_card_password]) #writing the order to the csv file
     
@@ -259,10 +294,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-        
