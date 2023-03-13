@@ -134,9 +134,6 @@ def isValidCreditCardNumber(cc_number): #checking if the credit card number is v
 
 def main():
 
-
-    credit_card_number = ""
-    credit_card_password = ""
      #opening the csv file in read mode
 
     file = open("menu.txt", "w") #opening the file in write mode
@@ -226,7 +223,7 @@ def main():
 
     found = False
 
-    with open("Orders_Database.csv", "r") as csvfile:
+    with open("Orders_Database.csv", "a+") as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
           print(row)
@@ -239,9 +236,9 @@ def main():
         if found:
             print("Do you want to use your previous credit card information? (Y/N)")
             choice = input()
-            if choice == "Y":
+            if choice == "Y" or "y":
                 pass
-            elif choice == "N":
+            elif choice == "N" or "n":
                 credit_card_number = input("Please enter your credit card number: ")
                 while(True):
                     if isValidCreditCardNumber(credit_card_number):
@@ -260,7 +257,13 @@ def main():
                     print("Invalid Credit Card Number!")
                     credit_card_number = input("Please enter your credit card number: ")
             credit_card_password = input("Please enter your credit card password: ")
-                    
+
+
+
+    
+
+        
+            
     
         
             
