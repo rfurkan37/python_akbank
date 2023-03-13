@@ -289,7 +289,7 @@ def main():
     print("Order: " + description)
     print(f"Cost: {cost:.2f} ₺")
     print("Date: " + date_time)
-    print("Order saved to database!")
+    print("Order saved to database!") 
 
 
 
